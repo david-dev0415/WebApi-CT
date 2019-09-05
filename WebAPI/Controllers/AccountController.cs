@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web.Http;
 using WebAPI.Models;
 
@@ -34,19 +35,26 @@ namespace WebAPI.Controllers
 
         [HttpGet]
         [Route("api/GetUserClaims")]
-        public AccountModel GetUserClaims()
+        public async Task<AccountModel> GetUserClaims()
         {
-            var identityClaims = (ClaimsIdentity)User.Identity;
-            IEnumerable<Claim> claims = identityClaims.Claims;
-            AccountModel model = new AccountModel()
+            try
             {
-                UserName = identityClaims.FindFirst("Username").Value,
-                Email = identityClaims.FindFirst("Email").Value,
-                FirstName = identityClaims.FindFirst("FirstName").Value,
-                LastName = identityClaims.FindFirst("LastName").Value,
-                LoggedOn = identityClaims.FindFirst("LoggedOn").Value
-            };
-            return model;
+                var identityClaims = (ClaimsIdentity)User.Identity;
+                IEnumerable<Claim> claims = identityClaims.Claims;
+                AccountModel model = new AccountModel()
+                {
+                    UserName = identityClaims.FindFirst("Username").Value,
+                    Email = identityClaims.FindFirst("Email").Value,
+                    FirstName = identityClaims.FindFirst("FirstName").Value,
+                    LastName = identityClaims.FindFirst("LastName").Value,
+                    LoggedOn = identityClaims.FindFirst("LoggedOn").Value
+                };
+                return model;
+            }
+            catch (Exception)
+            {
+                return null;
+            }            
         }
 
         [HttpGet]
