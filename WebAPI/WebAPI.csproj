@@ -20,6 +20,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -200,8 +202,10 @@
       <DependentUpon>201801311545174_ChangedDefaultColumnNames.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountModel.cs" />
+    <Compile Include="Models\ViewsModel\AccountViewModel.cs" />
+    <Compile Include="Models\ViewsModel\IAccountRepository.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ViewsModel\Reply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
