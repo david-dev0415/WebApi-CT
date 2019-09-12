@@ -51,9 +51,7 @@ namespace WebAPI.Controllers
 
                 using (var manager = new UserManager<ApplicationUser>(userStore))
                 {
-                    //var existingAccount = ctx.Users.Where(a => a.UserName).FirstOrDefault<AccountViewModel>();
                     var existingAccount = manager.Users.Where(a => a.UserName == accountView.UserName).FirstOrDefault();
-
                     if (existingAccount != null)
                     {
                         existingAccount.FirstName = accountView.FirstName;
@@ -87,27 +85,28 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         public IHttpActionResult GetAccount([FromUri]string userName)
         {
-
             try
             {
                 var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
 
                 using (var manager = new UserManager<ApplicationUser>(userStore))
-                {
-                    var user = manager.Users.Where(u => u.UserName == userName.ToString()).FirstOrDefault();
-                    if (user != null)
+                {                  
+                    var user = manager.Users.Where((a) => (userName.Contains(a.UserName.ToString()))).ToList();
+
+                    if (user.Count > 0)
                     {
-                        return Ok(user);
-                    }
-                    else
-                    {
-                        Reply reply = new Reply
+                        foreach (var data in user)
                         {
-                            Code = 400,
-                            Message = "El usuario no se encontró, problamente porque no está registrado en la base de datos."
-                        };
-                        return Content(HttpStatusCode.BadRequest, reply);
+                            return Ok(data);
+                        }
                     }
+
+                    Reply reply = new Reply()
+                    {
+                        Code = 400,
+                        Message = "El usuario no se encontró, problamente porque no está registrado en la base de datos."
+                    };
+                    return Content(HttpStatusCode.BadRequest, reply);
                 }
             }
             catch (HttpResponseException ex)
