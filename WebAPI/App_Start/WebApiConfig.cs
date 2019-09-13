@@ -18,8 +18,8 @@ namespace WebAPI
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{action}/{quoteName}",
+                defaults: new { quoteName = RouteParameter.Optional }
             );
 
             config.Filters.Add(new AuthorizeAttribute());

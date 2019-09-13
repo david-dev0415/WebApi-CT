@@ -31,12 +31,13 @@ namespace WebAPI.Controllers
                 RequiredLength = 3
             };
             IdentityResult result = manager.Create(user, accountView.Password);
-            manager.AddToRoles(user.Id, accountView.Roles);
+            if (accountView.Roles != null)
+                manager.AddToRoles(user.Id, accountView.Roles);
             return result;
         }
 
         [Route("api/User/Edit")]
-        [HttpPost]
+        [HttpPut]
         [AllowAnonymous]
         public IHttpActionResult Put([FromBody]AccountViewModel accountView)
         {
@@ -90,7 +91,7 @@ namespace WebAPI.Controllers
                 var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
 
                 using (var manager = new UserManager<ApplicationUser>(userStore))
-                {                  
+                {
                     var user = manager.Users.Where((a) => (userName.Contains(a.UserName.ToString()))).ToList();
 
                     if (user.Count > 0)
@@ -113,6 +114,37 @@ namespace WebAPI.Controllers
             {
                 return Content(HttpStatusCode.BadRequest, ex.Message);
             }
+        }
+
+        [HttpPost]
+        //[Route("api/User/GetCheckPassword/{userName}")]
+        [Route("api/User/GetCheckPassword")]
+        [AllowAnonymous]
+        public bool GetCheckPassword([FromBody]AccountViewModel accountView)
+        {
+            var verifyPassword = false;
+            if (ModelState.IsValid && !string.IsNullOrEmpty(accountView.Password))
+            {
+
+                var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
+                using (var manager = new UserManager<ApplicationUser>(userStore))
+                {
+                    try
+                    {
+                        //var userNameData = accountView.UserName;
+                        var passwordData = accountView.Password;
+                        var user = manager.FindByName(accountView.UserName);
+                        //var userIdentity = await manager.FindAsync(user.UserName, password);
+                        bool check = manager.CheckPassword(user, passwordData);
+                        verifyPassword = check;
+                    }
+                    catch (Exception)
+                    {
+                        throw new Exception();
+                    }
+                }
+            }
+            return verifyPassword;
         }
 
         [Route("api/GetUserClaims")]
