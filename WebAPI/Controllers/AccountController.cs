@@ -39,7 +39,7 @@ namespace WebAPI.Controllers
         [Route("api/User/Edit")]
         [HttpPut]
         [AllowAnonymous]
-        public IHttpActionResult Put([FromBody]AccountViewModel accountView)
+        public IHttpActionResult PutAccount([FromBody]AccountViewModel accountView)
         {
             if (!ModelState.IsValid)
             {
@@ -117,34 +117,31 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        //[Route("api/User/GetCheckPassword/{userName}")]
-        [Route("api/User/GetCheckPassword")]
+        //[Route("api/User/GetCheckPassword/{userName}/{password}")]
+        [Route("api/User/CheckPassword")]
+        //[Route("api/User/GetCheckPassword")]
         [AllowAnonymous]
-        public bool GetCheckPassword([FromBody]AccountViewModel accountView)
+        public IHttpActionResult CheckPassword([FromBody]AccountViewModel accountView)
         {
             var verifyPassword = false;
-            if (ModelState.IsValid && !string.IsNullOrEmpty(accountView.Password))
+            var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            using (var manager = new UserManager<ApplicationUser>(userStore))
             {
-
-                var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
-                using (var manager = new UserManager<ApplicationUser>(userStore))
+                try
                 {
-                    try
-                    {
-                        //var userNameData = accountView.UserName;
-                        var passwordData = accountView.Password;
-                        var user = manager.FindByName(accountView.UserName);
-                        //var userIdentity = await manager.FindAsync(user.UserName, password);
-                        bool check = manager.CheckPassword(user, passwordData);
-                        verifyPassword = check;
-                    }
-                    catch (Exception)
-                    {
-                        throw new Exception();
-                    }
+                    //var userNameData = accountView.UserName;
+                    var passwordData = accountView.Password;
+                    var user = manager.FindByName(accountView.UserName);
+                    //var userIdentity = await manager.FindAsync(user.UserName, password);
+                    bool check = manager.CheckPassword(user, passwordData);
+                    verifyPassword = check;
+                }
+                catch (Exception)
+                {
+                    throw new Exception();
                 }
             }
-            return verifyPassword;
+            return Ok(verifyPassword);
         }
 
         [Route("api/GetUserClaims")]
