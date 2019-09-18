@@ -129,10 +129,8 @@ namespace WebAPI.Controllers
             {
                 try
                 {
-                    //var userNameData = accountView.UserName;
                     var passwordData = accountView.Password;
                     var user = manager.FindByName(accountView.UserName);
-                    //var userIdentity = await manager.FindAsync(user.UserName, password);
                     bool check = manager.CheckPassword(user, passwordData);
                     verifyPassword = check;
                 }
@@ -143,6 +141,38 @@ namespace WebAPI.Controllers
             }
             return Ok(verifyPassword);
         }
+
+        [HttpPut]
+        [Route("api/User/PutPassword")]
+        [AllowAnonymous]
+        public IHttpActionResult PutPassword([FromBody]AccountViewModel accountView)
+        {
+            var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            using (var manager = new UserManager<ApplicationUser>(userStore))
+            {
+                try
+                {
+                    var passwordData = accountView.Password;
+                    var user = manager.FindByName(accountView.UserName);
+                    bool check = manager.CheckPassword(user, passwordData);
+
+                    if (check && accountView.newPassword != null)
+                    {
+                        var changePassword = manager.ChangePassword(user.Id, accountView.Password, accountView.newPassword);
+                        return Ok(changePassword);
+                    }
+                    else
+                    {
+                        return BadRequest("Ups, ocurrió un error");
+                    }
+                }
+                catch (Exception)
+                {
+                    throw new Exception();
+                }
+            }
+        }
+
 
         [Route("api/GetUserClaims")]
         [HttpGet]
