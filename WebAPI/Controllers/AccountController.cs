@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
         [Route("api/User/Register")]
         [HttpPost]
         [AllowAnonymous]
-        public IdentityResult Register(AccountViewModel accountView)
+        public IHttpActionResult Register(AccountViewModel accountView)
         {
             var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var manager = new UserManager<ApplicationUser>(userStore);
@@ -30,15 +30,30 @@ namespace WebAPI.Controllers
             {
                 RequiredLength = 3
             };
+
+            //var  
+
             IdentityResult result = manager.Create(user, accountView.Password);
+            if (result.Succeeded)
+            {
+                Reply reply = new Reply()
+                {
+                    Code = 400,
+                    Message = "Ocurrió un error."
+                };
+            }
+
             if (accountView.Roles != null)
+            {
                 manager.AddToRoles(user.Id, accountView.Roles);
-            return result;
+            }
+                
+            return Ok(result);
         }
 
         [Route("api/User/Edit")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize]
         public IHttpActionResult PutAccount([FromBody]AccountViewModel accountView)
         {
             if (!ModelState.IsValid)
@@ -83,7 +98,7 @@ namespace WebAPI.Controllers
 
         [Route("api/User/Get/{userName}")]
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize]
         public IHttpActionResult GetAccount([FromUri]string userName)
         {
             try
@@ -120,7 +135,7 @@ namespace WebAPI.Controllers
         //[Route("api/User/GetCheckPassword/{userName}/{password}")]
         [Route("api/User/CheckPassword")]
         //[Route("api/User/GetCheckPassword")]
-        [AllowAnonymous]
+        [Authorize]
         public IHttpActionResult CheckPassword([FromBody]AccountViewModel accountView)
         {
             var verifyPassword = false;
@@ -144,7 +159,7 @@ namespace WebAPI.Controllers
 
         [HttpPut]
         [Route("api/User/PutPassword")]
-        [AllowAnonymous]
+        [Authorize]
         public IHttpActionResult PutPassword([FromBody]AccountViewModel accountView)
         {
             var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
@@ -152,18 +167,29 @@ namespace WebAPI.Controllers
             {
                 try
                 {
-                    var passwordData = accountView.Password;
+                    var passwordData = accountView.CurrentPassword;
                     var user = manager.FindByName(accountView.UserName);
-                    bool check = manager.CheckPassword(user, passwordData);
-
-                    if (check && accountView.newPassword != null)
+                    //bool check = manager.CheckPassword(user, passwordData);
+                    if (accountView.NewPassword != null)
                     {
-                        var changePassword = manager.ChangePassword(user.Id, accountView.Password, accountView.newPassword);
-                        return Ok(changePassword);
+                        var changePassword = manager.ChangePassword(user.Id, passwordData, accountView.NewPassword);
+                        if (!changePassword.Succeeded)
+                        {
+                            Reply reply = new Reply()
+                            {
+                                Code = 401,
+                                Message = "La contraseña actual es incorrecta."
+                            };
+                            return Ok(reply);
+                        }
+                        else
+                        {
+                            return Ok(changePassword);
+                        }
                     }
                     else
                     {
-                        return BadRequest("Ups, ocurrió un error");
+                        return Ok("El campo 'nueva contraseña' está vacío.");
                     }
                 }
                 catch (Exception)
