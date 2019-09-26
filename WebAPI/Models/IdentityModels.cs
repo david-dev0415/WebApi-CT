@@ -11,6 +11,7 @@ namespace WebAPI.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public byte DefaultPassword { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser> {

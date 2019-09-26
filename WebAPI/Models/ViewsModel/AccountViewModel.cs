@@ -13,6 +13,7 @@ namespace WebAPI.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string NewPassword { get; set; }
+        public byte DefaultPassword { get; set; }
         public string CurrentPassword { get; set; }
         public string LoggedOn { get; set; }
 

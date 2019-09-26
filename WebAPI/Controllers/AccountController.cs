@@ -26,12 +26,12 @@ namespace WebAPI.Controllers
             var user = new ApplicationUser() { UserName = accountView.UserName, Email = accountView.Email };
             user.FirstName = accountView.FirstName;
             user.LastName = accountView.LastName;
+            user.DefaultPassword = 1;
+
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 3
+                RequiredLength = 6
             };
-
-            //var  
 
             IdentityResult result = manager.Create(user, accountView.Password);
             if (result.Succeeded)
@@ -47,13 +47,14 @@ namespace WebAPI.Controllers
             {
                 manager.AddToRoles(user.Id, accountView.Roles);
             }
-                
+
             return Ok(result);
         }
 
         [Route("api/User/Edit")]
         [HttpPut]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         public IHttpActionResult PutAccount([FromBody]AccountViewModel accountView)
         {
             if (!ModelState.IsValid)
@@ -73,7 +74,7 @@ namespace WebAPI.Controllers
                         existingAccount.FirstName = accountView.FirstName;
                         existingAccount.LastName = accountView.LastName;
                         existingAccount.Email = accountView.Email;
-                        manager.PasswordValidator = new PasswordValidator { RequiredLength = 3 };
+                        manager.PasswordValidator = new PasswordValidator { RequiredLength = 6 };
                         manager.RemovePassword(existingAccount.Id);
                         manager.AddPassword(existingAccount.Id, accountView.Password);
                         return Ok(existingAccount);
@@ -98,7 +99,8 @@ namespace WebAPI.Controllers
 
         [Route("api/User/Get/{userName}")]
         [HttpGet]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         public IHttpActionResult GetAccount([FromUri]string userName)
         {
             try
@@ -135,7 +137,8 @@ namespace WebAPI.Controllers
         //[Route("api/User/GetCheckPassword/{userName}/{password}")]
         [Route("api/User/CheckPassword")]
         //[Route("api/User/GetCheckPassword")]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         public IHttpActionResult CheckPassword([FromBody]AccountViewModel accountView)
         {
             var verifyPassword = false;
@@ -159,7 +162,8 @@ namespace WebAPI.Controllers
 
         [HttpPut]
         [Route("api/User/PutPassword")]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         public IHttpActionResult PutPassword([FromBody]AccountViewModel accountView)
         {
             var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
@@ -169,11 +173,21 @@ namespace WebAPI.Controllers
                 {
                     var passwordData = accountView.CurrentPassword;
                     var user = manager.FindByName(accountView.UserName);
-                    //bool check = manager.CheckPassword(user, passwordData);
-                    if (accountView.NewPassword != null)
+                    bool check = manager.CheckPassword(user, passwordData);
+
+                    if (check)
                     {
                         var changePassword = manager.ChangePassword(user.Id, passwordData, accountView.NewPassword);
-                        if (!changePassword.Succeeded)
+                        if (changePassword.Succeeded)
+                        {
+                            if (accountView.DefaultPassword == 1)
+                            {
+                                user.DefaultPassword = 0;
+                                manager.Update(user);
+                            }
+                            return Ok(changePassword);
+                        }
+                        else
                         {
                             Reply reply = new Reply()
                             {
@@ -182,14 +196,10 @@ namespace WebAPI.Controllers
                             };
                             return Ok(reply);
                         }
-                        else
-                        {
-                            return Ok(changePassword);
-                        }
                     }
                     else
                     {
-                        return Ok("El campo 'nueva contraseña' está vacío.");
+                        return Ok("La contraseña del usuario es incorrecta");
                     }
                 }
                 catch (Exception)
