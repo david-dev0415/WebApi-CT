@@ -224,7 +224,8 @@ namespace WebAPI.Controllers
                     Email = identityClaims.FindFirst("Email").Value,
                     FirstName = identityClaims.FindFirst("FirstName").Value,
                     LastName = identityClaims.FindFirst("LastName").Value,
-                    LoggedOn = identityClaims.FindFirst("LoggedOn").Value
+                    DefaultPassword = Byte.Parse(identityClaims.FindFirst("DefaultPassword").Value),
+                    LoggedOn = identityClaims.FindFirst("LoggedOn").Value                    
                 };
                 return model;
             }
