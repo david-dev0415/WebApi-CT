@@ -1,0 +1,782 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB_A4DEDC_CTReportModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Consolidate">
+          <Key>
+            <PropertyRef Name="IdConsolidate" />
+          </Key>
+          <Property Name="IdConsolidate" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CodVehicle" Type="nvarchar(max)" />
+          <Property Name="NameRoute" Type="nvarchar(max)" />
+          <Property Name="LapsManual" Type="nvarchar(max)" />
+          <Property Name="Passenger" Type="nvarchar(max)" />
+          <Property Name="Day" Type="nvarchar(max)" />
+          <Property Name="Month" Type="nvarchar(max)" />
+          <Property Name="Year" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DB_A4DEDC_CTReport.dbo.HistoryCollection' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="HistoryCollection">
+          <Key>
+            <PropertyRef Name="IdHistoryCollection" />
+            <PropertyRef Name="IdVehicle" />
+            <PropertyRef Name="IdRoute" />
+            <PropertyRef Name="IdSector" />
+            <PropertyRef Name="IdConsolidate" />
+          </Key>
+          <Property Name="IdHistoryCollection" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IdVehicle" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IdRoute" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="DateStart" Type="datetime2" Precision="0" />
+          <Property Name="DateFinal" Type="datetime2" Precision="0" />
+          <Property Name="MinutesV" Type="bigint" />
+          <Property Name="Passenger" Type="bigint" />
+          <Property Name="Amount" Type="float" />
+          <Property Name="Kilometers" Type="float" />
+          <Property Name="Laps" Type="float" />
+          <Property Name="IdSector" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="LapsManual" Type="float" />
+          <Property Name="IdRegistry" Type="nvarchar(max)" />
+          <Property Name="InRegistryRealTime" Type="float" />
+          <Property Name="InSector" Type="float" />
+          <Property Name="InRoute" Type="float" />
+          <Property Name="AmountDiscountedBrands" Type="float" />
+          <Property Name="Blocks" Type="bigint" />
+          <Property Name="UpsDoorOne" Type="bigint" />
+          <Property Name="DownsDoorOne" Type="bigint" />
+          <Property Name="BlocksDoorOne" Type="bigint" />
+          <Property Name="UpsDoorTwo" Type="bigint" />
+          <Property Name="DownsDoorTwo" Type="bigint" />
+          <Property Name="BlocksDoorTwo" Type="bigint" />
+          <Property Name="InVehicle" Type="float" />
+          <Property Name="InHistoryRealTime" Type="float" />
+          <Property Name="IdConsolidate" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HistoryRealTime">
+          <Key>
+            <PropertyRef Name="InHistoryRealTime" />
+          </Key>
+          <Property Name="IdHistoryRealTime" Type="nvarchar(max)" />
+          <Property Name="DateAndTime" Type="datetime2" Precision="0" />
+          <Property Name="Speed" Type="bigint" />
+          <Property Name="InHistoryRealTime" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Partner">
+          <Key>
+            <PropertyRef Name="InPartner" />
+          </Key>
+          <Property Name="NumberId" Type="bigint" />
+          <Property Name="NameOwner" Type="nvarchar(max)" />
+          <Property Name="IdUser" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="InPartner" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DB_A4DEDC_CTReport.dbo.PartnerVehicleDetails' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="PartnerVehicleDetails">
+          <Key>
+            <PropertyRef Name="InPartner" />
+          </Key>
+          <Property Name="InPartner" Type="int" Nullable="false" />
+          <Property Name="IdVehicle" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="RegistryRealTime">
+          <Key>
+            <PropertyRef Name="IdRegistryRealTime" />
+          </Key>
+          <Property Name="IdRegistryRealTime" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IdVehicle" Type="nvarchar(max)" />
+          <Property Name="IdSector" Type="nvarchar(max)" />
+          <Property Name="DateTime" Type="datetime2" Precision="0" />
+          <Property Name="Length" Type="nvarchar(max)" />
+          <Property Name="Latitute" Type="nvarchar(max)" />
+          <Property Name="Speed" Type="bigint" />
+          <Property Name="OnboardPassengers" Type="bigint" />
+          <Property Name="Uploads" Type="bigint" />
+          <Property Name="Dows" Type="bigint" />
+          <Property Name="InRegistryRealTime" Type="float" />
+        </EntityType>
+        <EntityType Name="Route">
+          <Key>
+            <PropertyRef Name="IdRoute" />
+          </Key>
+          <Property Name="CodRoute" Type="nvarchar(max)" />
+          <Property Name="NameRoute" Type="nvarchar(max)" />
+          <Property Name="InRoute" Type="float" />
+          <Property Name="IdRoute" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sector">
+          <Key>
+            <PropertyRef Name="IdSector" />
+          </Key>
+          <Property Name="IdSector" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CodSector" Type="nvarchar(max)" />
+          <Property Name="NameCompany" Type="nvarchar(max)" />
+          <Property Name="InSector" Type="float" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="13" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" />
+          <Property Name="LastName" Type="nvarchar(max)" />
+          <Property Name="DefaultPassword" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="IdVehicle" />
+          </Key>
+          <Property Name="CodVehicle" Type="bigint" />
+          <Property Name="IdVehicle" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="LicensePlate" Type="nvarchar(max)" />
+          <Property Name="InVehicle" Type="int" />
+        </EntityType>
+        <Association Name="FK__Partner__IdUser__0D44F85C">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Partner" Type="Self.Partner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Partner">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PartnerVe__InPar__0E6E26BF">
+          <End Role="Partner" Type="Self.Partner" Multiplicity="1" />
+          <End Role="PartnerVehicleDetails" Type="Self.PartnerVehicleDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Partner">
+              <PropertyRef Name="InPartner" />
+            </Principal>
+            <Dependent Role="PartnerVehicleDetails">
+              <PropertyRef Name="InPartner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_consolidate">
+          <End Role="Consolidate" Type="Self.Consolidate" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HistoryCollection" Type="Self.HistoryCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consolidate">
+              <PropertyRef Name="IdConsolidate" />
+            </Principal>
+            <Dependent Role="HistoryCollection">
+              <PropertyRef Name="IdConsolidate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailVehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PartnerVehicleDetails" Type="Self.PartnerVehicleDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="IdVehicle" />
+            </Principal>
+            <Dependent Role="PartnerVehicleDetails">
+              <PropertyRef Name="IdVehicle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Route">
+          <End Role="Route" Type="Self.Route" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HistoryCollection" Type="Self.HistoryCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Route">
+              <PropertyRef Name="IdRoute" />
+            </Principal>
+            <Dependent Role="HistoryCollection">
+              <PropertyRef Name="IdRoute" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sector">
+          <End Role="Sector" Type="Self.Sector" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HistoryCollection" Type="Self.HistoryCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sector">
+              <PropertyRef Name="IdSector" />
+            </Principal>
+            <Dependent Role="HistoryCollection">
+              <PropertyRef Name="IdSector" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HistoryCollection" Type="Self.HistoryCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="IdVehicle" />
+            </Principal>
+            <Dependent Role="HistoryCollection">
+              <PropertyRef Name="IdVehicle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB_A4DEDC_CTReportModelStoreContainer">
+          <EntitySet Name="Consolidate" EntityType="Self.Consolidate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HistoryRealTime" EntityType="Self.HistoryRealTime" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Partner" EntityType="Self.Partner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegistryRealTime" EntityType="Self.RegistryRealTime" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Route" EntityType="Self.Route" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sector" EntityType="Self.Sector" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HistoryCollection" EntityType="Self.HistoryCollection" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [HistoryCollection].[IdHistoryCollection] AS [IdHistoryCollection], 
+    [HistoryCollection].[IdVehicle] AS [IdVehicle], 
+    [HistoryCollection].[IdRoute] AS [IdRoute], 
+    [HistoryCollection].[DateStart] AS [DateStart], 
+    [HistoryCollection].[DateFinal] AS [DateFinal], 
+    [HistoryCollection].[MinutesV] AS [MinutesV], 
+    [HistoryCollection].[Passenger] AS [Passenger], 
+    [HistoryCollection].[Amount] AS [Amount], 
+    [HistoryCollection].[Kilometers] AS [Kilometers], 
+    [HistoryCollection].[Laps] AS [Laps], 
+    [HistoryCollection].[IdSector] AS [IdSector], 
+    [HistoryCollection].[LapsManual] AS [LapsManual], 
+    [HistoryCollection].[IdRegistry] AS [IdRegistry], 
+    [HistoryCollection].[InRegistryRealTime] AS [InRegistryRealTime], 
+    [HistoryCollection].[InSector] AS [InSector], 
+    [HistoryCollection].[InRoute] AS [InRoute], 
+    [HistoryCollection].[AmountDiscountedBrands] AS [AmountDiscountedBrands], 
+    [HistoryCollection].[Blocks] AS [Blocks], 
+    [HistoryCollection].[UpsDoorOne] AS [UpsDoorOne], 
+    [HistoryCollection].[DownsDoorOne] AS [DownsDoorOne], 
+    [HistoryCollection].[BlocksDoorOne] AS [BlocksDoorOne], 
+    [HistoryCollection].[UpsDoorTwo] AS [UpsDoorTwo], 
+    [HistoryCollection].[DownsDoorTwo] AS [DownsDoorTwo], 
+    [HistoryCollection].[BlocksDoorTwo] AS [BlocksDoorTwo], 
+    [HistoryCollection].[InVehicle] AS [InVehicle], 
+    [HistoryCollection].[InHistoryRealTime] AS [InHistoryRealTime], 
+    [HistoryCollection].[IdConsolidate] AS [IdConsolidate]
+    FROM [dbo].[HistoryCollection] AS [HistoryCollection]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PartnerVehicleDetails" EntityType="Self.PartnerVehicleDetails" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PartnerVehicleDetails].[InPartner] AS [InPartner], 
+    [PartnerVehicleDetails].[IdVehicle] AS [IdVehicle]
+    FROM [dbo].[PartnerVehicleDetails] AS [PartnerVehicleDetails]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Partner__IdUser__0D44F85C" Association="Self.FK__Partner__IdUser__0D44F85C">
+            <End Role="User" EntitySet="User" />
+            <End Role="Partner" EntitySet="Partner" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PartnerVe__InPar__0E6E26BF" Association="Self.FK__PartnerVe__InPar__0E6E26BF">
+            <End Role="Partner" EntitySet="Partner" />
+            <End Role="PartnerVehicleDetails" EntitySet="PartnerVehicleDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_consolidate" Association="Self.FK_consolidate">
+            <End Role="Consolidate" EntitySet="Consolidate" />
+            <End Role="HistoryCollection" EntitySet="HistoryCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailVehicle" Association="Self.FK_DetailVehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="PartnerVehicleDetails" EntitySet="PartnerVehicleDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Route" Association="Self.FK_Route">
+            <End Role="Route" EntitySet="Route" />
+            <End Role="HistoryCollection" EntitySet="HistoryCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sector" Association="Self.FK_Sector">
+            <End Role="Sector" EntitySet="Sector" />
+            <End Role="HistoryCollection" EntitySet="HistoryCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vehicle" Association="Self.FK_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="HistoryCollection" EntitySet="HistoryCollection" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_A4DEDC_CTReportModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Consolidate">
+          <Key>
+            <PropertyRef Name="IdConsolidate" />
+          </Key>
+          <Property Name="IdConsolidate" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CodVehicle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NameRoute" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LapsManual" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Passenger" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Day" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Month" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HistoryCollection" Relationship="Self.FK_consolidate" FromRole="Consolidate" ToRole="HistoryCollection" />
+        </EntityType>
+        <EntityType Name="HistoryRealTime">
+          <Key>
+            <PropertyRef Name="InHistoryRealTime" />
+          </Key>
+          <Property Name="IdHistoryRealTime" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateAndTime" Type="DateTime" Precision="0" />
+          <Property Name="Speed" Type="Int64" />
+          <Property Name="InHistoryRealTime" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Partner">
+          <Key>
+            <PropertyRef Name="InPartner" />
+          </Key>
+          <Property Name="NumberId" Type="Int64" />
+          <Property Name="NameOwner" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="InPartner" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PartnerVehicleDetails" Relationship="Self.FK__PartnerVe__InPar__0E6E26BF" FromRole="Partner" ToRole="PartnerVehicleDetails" />
+          <NavigationProperty Name="User" Relationship="DB_A4DEDC_CTReportModel.FK__Partner__IdUser__0D44F85C" FromRole="Partner" ToRole="User" />
+        </EntityType>
+        <EntityType Name="RegistryRealTime">
+          <Key>
+            <PropertyRef Name="IdRegistryRealTime" />
+          </Key>
+          <Property Name="IdRegistryRealTime" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdVehicle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdSector" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateTime" Type="DateTime" Precision="0" />
+          <Property Name="Length" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Latitute" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Speed" Type="Int64" />
+          <Property Name="OnboardPassengers" Type="Int64" />
+          <Property Name="Uploads" Type="Int64" />
+          <Property Name="Dows" Type="Int64" />
+          <Property Name="InRegistryRealTime" Type="Double" />
+        </EntityType>
+        <EntityType Name="Route">
+          <Key>
+            <PropertyRef Name="IdRoute" />
+          </Key>
+          <Property Name="CodRoute" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NameRoute" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InRoute" Type="Double" />
+          <Property Name="IdRoute" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="HistoryCollection" Relationship="Self.FK_Route" FromRole="Route" ToRole="HistoryCollection" />
+        </EntityType>
+        <EntityType Name="Sector">
+          <Key>
+            <PropertyRef Name="IdSector" />
+          </Key>
+          <Property Name="IdSector" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CodSector" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NameCompany" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InSector" Type="Double" />
+          <NavigationProperty Name="HistoryCollection" Relationship="Self.FK_Sector" FromRole="Sector" ToRole="HistoryCollection" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="IdVehicle" />
+          </Key>
+          <Property Name="CodVehicle" Type="Int64" />
+          <Property Name="IdVehicle" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LicensePlate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InVehicle" Type="Int32" />
+          <NavigationProperty Name="PartnerVehicleDetails" Relationship="Self.FK_DetailVehicle" FromRole="Vehicle" ToRole="PartnerVehicleDetails" />
+          <NavigationProperty Name="HistoryCollection" Relationship="Self.FK_Vehicle" FromRole="Vehicle" ToRole="HistoryCollection" />
+        </EntityType>
+        <EntityType Name="HistoryCollection">
+          <Key>
+            <PropertyRef Name="IdHistoryCollection" />
+            <PropertyRef Name="IdVehicle" />
+            <PropertyRef Name="IdRoute" />
+            <PropertyRef Name="IdSector" />
+            <PropertyRef Name="IdConsolidate" />
+          </Key>
+          <Property Name="IdHistoryCollection" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdVehicle" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdRoute" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateStart" Type="DateTime" Precision="0" />
+          <Property Name="DateFinal" Type="DateTime" Precision="0" />
+          <Property Name="MinutesV" Type="Int64" />
+          <Property Name="Passenger" Type="Int64" />
+          <Property Name="Amount" Type="Double" />
+          <Property Name="Kilometers" Type="Double" />
+          <Property Name="Laps" Type="Double" />
+          <Property Name="IdSector" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LapsManual" Type="Double" />
+          <Property Name="IdRegistry" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InRegistryRealTime" Type="Double" />
+          <Property Name="InSector" Type="Double" />
+          <Property Name="InRoute" Type="Double" />
+          <Property Name="AmountDiscountedBrands" Type="Double" />
+          <Property Name="Blocks" Type="Int64" />
+          <Property Name="UpsDoorOne" Type="Int64" />
+          <Property Name="DownsDoorOne" Type="Int64" />
+          <Property Name="BlocksDoorOne" Type="Int64" />
+          <Property Name="UpsDoorTwo" Type="Int64" />
+          <Property Name="DownsDoorTwo" Type="Int64" />
+          <Property Name="BlocksDoorTwo" Type="Int64" />
+          <Property Name="InVehicle" Type="Double" />
+          <Property Name="InHistoryRealTime" Type="Double" />
+          <Property Name="IdConsolidate" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Consolidate" Relationship="Self.FK_consolidate" FromRole="HistoryCollection" ToRole="Consolidate" />
+          <NavigationProperty Name="Route" Relationship="Self.FK_Route" FromRole="HistoryCollection" ToRole="Route" />
+          <NavigationProperty Name="Sector" Relationship="Self.FK_Sector" FromRole="HistoryCollection" ToRole="Sector" />
+          <NavigationProperty Name="Vehicle" Relationship="Self.FK_Vehicle" FromRole="HistoryCollection" ToRole="Vehicle" />
+        </EntityType>
+        <EntityType Name="PartnerVehicleDetails">
+          <Key>
+            <PropertyRef Name="InPartner" />
+          </Key>
+          <Property Name="InPartner" Type="Int32" Nullable="false" />
+          <Property Name="IdVehicle" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Partner" Relationship="Self.FK__PartnerVe__InPar__0E6E26BF" FromRole="PartnerVehicleDetails" ToRole="Partner" />
+          <NavigationProperty Name="Vehicle" Relationship="Self.FK_DetailVehicle" FromRole="PartnerVehicleDetails" ToRole="Vehicle" />
+        </EntityType>
+        <Association Name="FK_consolidate">
+          <End Role="Consolidate" Type="Self.Consolidate" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HistoryCollection" Type="Self.HistoryCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consolidate">
+              <PropertyRef Name="IdConsolidate" />
+            </Principal>
+            <Dependent Role="HistoryCollection">
+              <PropertyRef Name="IdConsolidate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PartnerVe__InPar__0E6E26BF">
+          <End Role="Partner" Type="Self.Partner" Multiplicity="1" />
+          <End Role="PartnerVehicleDetails" Type="Self.PartnerVehicleDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Partner">
+              <PropertyRef Name="InPartner" />
+            </Principal>
+            <Dependent Role="PartnerVehicleDetails">
+              <PropertyRef Name="InPartner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Route">
+          <End Role="Route" Type="Self.Route" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HistoryCollection" Type="Self.HistoryCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Route">
+              <PropertyRef Name="IdRoute" />
+            </Principal>
+            <Dependent Role="HistoryCollection">
+              <PropertyRef Name="IdRoute" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sector">
+          <End Role="Sector" Type="Self.Sector" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HistoryCollection" Type="Self.HistoryCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sector">
+              <PropertyRef Name="IdSector" />
+            </Principal>
+            <Dependent Role="HistoryCollection">
+              <PropertyRef Name="IdSector" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailVehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PartnerVehicleDetails" Type="Self.PartnerVehicleDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="IdVehicle" />
+            </Principal>
+            <Dependent Role="PartnerVehicleDetails">
+              <PropertyRef Name="IdVehicle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HistoryCollection" Type="Self.HistoryCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="IdVehicle" />
+            </Principal>
+            <Dependent Role="HistoryCollection">
+              <PropertyRef Name="IdVehicle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB_A4DEDC_CTReportEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Consolidate" EntityType="Self.Consolidate" />
+          <EntitySet Name="HistoryRealTime" EntityType="Self.HistoryRealTime" />
+          <EntitySet Name="Partner" EntityType="Self.Partner" />
+          <EntitySet Name="RegistryRealTime" EntityType="Self.RegistryRealTime" />
+          <EntitySet Name="Route" EntityType="Self.Route" />
+          <EntitySet Name="Sector" EntityType="Self.Sector" />
+          <EntitySet Name="Vehicle" EntityType="Self.Vehicle" />
+          <EntitySet Name="HistoryCollection" EntityType="Self.HistoryCollection" />
+          <EntitySet Name="PartnerVehicleDetails" EntityType="Self.PartnerVehicleDetails" />
+          <AssociationSet Name="FK_consolidate" Association="Self.FK_consolidate">
+            <End Role="Consolidate" EntitySet="Consolidate" />
+            <End Role="HistoryCollection" EntitySet="HistoryCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PartnerVe__InPar__0E6E26BF" Association="Self.FK__PartnerVe__InPar__0E6E26BF">
+            <End Role="Partner" EntitySet="Partner" />
+            <End Role="PartnerVehicleDetails" EntitySet="PartnerVehicleDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Route" Association="Self.FK_Route">
+            <End Role="Route" EntitySet="Route" />
+            <End Role="HistoryCollection" EntitySet="HistoryCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sector" Association="Self.FK_Sector">
+            <End Role="Sector" EntitySet="Sector" />
+            <End Role="HistoryCollection" EntitySet="HistoryCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailVehicle" Association="Self.FK_DetailVehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="PartnerVehicleDetails" EntitySet="PartnerVehicleDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vehicle" Association="Self.FK_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="HistoryCollection" EntitySet="HistoryCollection" />
+          </AssociationSet>
+          <EntitySet Name="User" EntityType="DB_A4DEDC_CTReportModel.User" />
+          <AssociationSet Name="FK__Partner__IdUser__0D44F85C" Association="DB_A4DEDC_CTReportModel.FK__Partner__IdUser__0D44F85C">
+            <End Role="User" EntitySet="User" />
+            <End Role="Partner" EntitySet="Partner" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DefaultPassword" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Partner" Relationship="DB_A4DEDC_CTReportModel.FK__Partner__IdUser__0D44F85C" FromRole="User" ToRole="Partner" />
+        </EntityType>
+        <Association Name="FK__Partner__IdUser__0D44F85C">
+          <End Type="DB_A4DEDC_CTReportModel.User" Role="User" Multiplicity="1" />
+          <End Type="DB_A4DEDC_CTReportModel.Partner" Role="Partner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Partner">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_A4DEDC_CTReportModelStoreContainer" CdmEntityContainer="DB_A4DEDC_CTReportEntities">
+          <EntitySetMapping Name="Consolidate">
+            <EntityTypeMapping TypeName="DB_A4DEDC_CTReportModel.Consolidate">
+              <MappingFragment StoreEntitySet="Consolidate">
+                <ScalarProperty Name="IdConsolidate" ColumnName="IdConsolidate" />
+                <ScalarProperty Name="CodVehicle" ColumnName="CodVehicle" />
+                <ScalarProperty Name="NameRoute" ColumnName="NameRoute" />
+                <ScalarProperty Name="LapsManual" ColumnName="LapsManual" />
+                <ScalarProperty Name="Passenger" ColumnName="Passenger" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistoryRealTime">
+            <EntityTypeMapping TypeName="DB_A4DEDC_CTReportModel.HistoryRealTime">
+              <MappingFragment StoreEntitySet="HistoryRealTime">
+                <ScalarProperty Name="IdHistoryRealTime" ColumnName="IdHistoryRealTime" />
+                <ScalarProperty Name="DateAndTime" ColumnName="DateAndTime" />
+                <ScalarProperty Name="Speed" ColumnName="Speed" />
+                <ScalarProperty Name="InHistoryRealTime" ColumnName="InHistoryRealTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Partner">
+            <EntityTypeMapping TypeName="DB_A4DEDC_CTReportModel.Partner">
+              <MappingFragment StoreEntitySet="Partner">
+                <ScalarProperty Name="NumberId" ColumnName="NumberId" />
+                <ScalarProperty Name="NameOwner" ColumnName="NameOwner" />
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+                <ScalarProperty Name="InPartner" ColumnName="InPartner" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegistryRealTime">
+            <EntityTypeMapping TypeName="DB_A4DEDC_CTReportModel.RegistryRealTime">
+              <MappingFragment StoreEntitySet="RegistryRealTime">
+                <ScalarProperty Name="IdRegistryRealTime" ColumnName="IdRegistryRealTime" />
+                <ScalarProperty Name="IdVehicle" ColumnName="IdVehicle" />
+                <ScalarProperty Name="IdSector" ColumnName="IdSector" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="Latitute" ColumnName="Latitute" />
+                <ScalarProperty Name="Speed" ColumnName="Speed" />
+                <ScalarProperty Name="OnboardPassengers" ColumnName="OnboardPassengers" />
+                <ScalarProperty Name="Uploads" ColumnName="Uploads" />
+                <ScalarProperty Name="Dows" ColumnName="Dows" />
+                <ScalarProperty Name="InRegistryRealTime" ColumnName="InRegistryRealTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Route">
+            <EntityTypeMapping TypeName="DB_A4DEDC_CTReportModel.Route">
+              <MappingFragment StoreEntitySet="Route">
+                <ScalarProperty Name="CodRoute" ColumnName="CodRoute" />
+                <ScalarProperty Name="NameRoute" ColumnName="NameRoute" />
+                <ScalarProperty Name="InRoute" ColumnName="InRoute" />
+                <ScalarProperty Name="IdRoute" ColumnName="IdRoute" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sector">
+            <EntityTypeMapping TypeName="DB_A4DEDC_CTReportModel.Sector">
+              <MappingFragment StoreEntitySet="Sector">
+                <ScalarProperty Name="IdSector" ColumnName="IdSector" />
+                <ScalarProperty Name="CodSector" ColumnName="CodSector" />
+                <ScalarProperty Name="NameCompany" ColumnName="NameCompany" />
+                <ScalarProperty Name="InSector" ColumnName="InSector" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehicle">
+            <EntityTypeMapping TypeName="DB_A4DEDC_CTReportModel.Vehicle">
+              <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="CodVehicle" ColumnName="CodVehicle" />
+                <ScalarProperty Name="IdVehicle" ColumnName="IdVehicle" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LicensePlate" ColumnName="LicensePlate" />
+                <ScalarProperty Name="InVehicle" ColumnName="InVehicle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistoryCollection">
+            <EntityTypeMapping TypeName="DB_A4DEDC_CTReportModel.HistoryCollection">
+              <MappingFragment StoreEntitySet="HistoryCollection">
+                <ScalarProperty Name="IdHistoryCollection" ColumnName="IdHistoryCollection" />
+                <ScalarProperty Name="IdVehicle" ColumnName="IdVehicle" />
+                <ScalarProperty Name="IdRoute" ColumnName="IdRoute" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="DateFinal" ColumnName="DateFinal" />
+                <ScalarProperty Name="MinutesV" ColumnName="MinutesV" />
+                <ScalarProperty Name="Passenger" ColumnName="Passenger" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Kilometers" ColumnName="Kilometers" />
+                <ScalarProperty Name="Laps" ColumnName="Laps" />
+                <ScalarProperty Name="IdSector" ColumnName="IdSector" />
+                <ScalarProperty Name="LapsManual" ColumnName="LapsManual" />
+                <ScalarProperty Name="IdRegistry" ColumnName="IdRegistry" />
+                <ScalarProperty Name="InRegistryRealTime" ColumnName="InRegistryRealTime" />
+                <ScalarProperty Name="InSector" ColumnName="InSector" />
+                <ScalarProperty Name="InRoute" ColumnName="InRoute" />
+                <ScalarProperty Name="AmountDiscountedBrands" ColumnName="AmountDiscountedBrands" />
+                <ScalarProperty Name="Blocks" ColumnName="Blocks" />
+                <ScalarProperty Name="UpsDoorOne" ColumnName="UpsDoorOne" />
+                <ScalarProperty Name="DownsDoorOne" ColumnName="DownsDoorOne" />
+                <ScalarProperty Name="BlocksDoorOne" ColumnName="BlocksDoorOne" />
+                <ScalarProperty Name="UpsDoorTwo" ColumnName="UpsDoorTwo" />
+                <ScalarProperty Name="DownsDoorTwo" ColumnName="DownsDoorTwo" />
+                <ScalarProperty Name="BlocksDoorTwo" ColumnName="BlocksDoorTwo" />
+                <ScalarProperty Name="InVehicle" ColumnName="InVehicle" />
+                <ScalarProperty Name="InHistoryRealTime" ColumnName="InHistoryRealTime" />
+                <ScalarProperty Name="IdConsolidate" ColumnName="IdConsolidate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PartnerVehicleDetails">
+            <EntityTypeMapping TypeName="DB_A4DEDC_CTReportModel.PartnerVehicleDetails">
+              <MappingFragment StoreEntitySet="PartnerVehicleDetails">
+                <ScalarProperty Name="InPartner" ColumnName="InPartner" />
+                <ScalarProperty Name="IdVehicle" ColumnName="IdVehicle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="DB_A4DEDC_CTReportModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="DefaultPassword" ColumnName="DefaultPassword" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

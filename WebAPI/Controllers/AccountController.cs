@@ -15,7 +15,6 @@ namespace WebAPI.Controllers
 {
     public class AccountController : ApiController
     {
-
         [Route("api/User/Register")]
         [HttpPost]
         [AllowAnonymous]
@@ -23,18 +22,18 @@ namespace WebAPI.Controllers
         {
             var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var manager = new UserManager<ApplicationUser>(userStore);
-            var user = new ApplicationUser() { UserName = accountView.UserName, Email = accountView.Email };
+            var user = new ApplicationUser() { UserName = accountView.UserName, Email = accountView.Email, Role = accountView.Roles };
             user.FirstName = accountView.FirstName;
             user.LastName = accountView.LastName;
-            user.DefaultPassword = 1;
-
+            user.DefaultPassword = 1;            
+            user.Role = accountView.Roles;            
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6
             };
 
             IdentityResult result = manager.Create(user, accountView.Password);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
                 Reply reply = new Reply()
                 {
@@ -52,9 +51,8 @@ namespace WebAPI.Controllers
         }
 
         [Route("api/User/Edit")]
-        [HttpPut]
-        //[Authorize]
-        [AllowAnonymous]
+        [Authorize]
+        [HttpPut]        
         public IHttpActionResult PutAccount([FromBody]AccountViewModel accountView)
         {
             if (!ModelState.IsValid)
@@ -89,7 +87,6 @@ namespace WebAPI.Controllers
                         return Content(HttpStatusCode.BadRequest, reply);
                     }
                 }
-
             }
             catch (HttpResponseException ex)
             {
@@ -97,16 +94,14 @@ namespace WebAPI.Controllers
             }
         }
 
-        [Route("api/User/Get/{userName}")]
         [HttpGet]
-        //[Authorize]
-        [AllowAnonymous]
+        [Authorize]
+        [Route("api/User/Get/{userName}")]                
         public IHttpActionResult GetAccount([FromUri]string userName)
         {
             try
             {
                 var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
-
                 using (var manager = new UserManager<ApplicationUser>(userStore))
                 {
                     var user = manager.Users.Where((a) => (userName.Contains(a.UserName.ToString()))).ToList();
@@ -134,11 +129,8 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        //[Route("api/User/GetCheckPassword/{userName}/{password}")]
-        [Route("api/User/CheckPassword")]
-        //[Route("api/User/GetCheckPassword")]
-        //[Authorize]
-        [AllowAnonymous]
+        [Authorize]
+        [Route("api/User/CheckPassword")]        
         public IHttpActionResult CheckPassword([FromBody]AccountViewModel accountView)
         {
             var verifyPassword = false;
@@ -161,9 +153,8 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut]
-        [Route("api/User/PutPassword")]
-        //[Authorize]
-        [AllowAnonymous]
+        [Authorize]
+        [Route("api/User/PutPassword")]        
         public IHttpActionResult PutPassword([FromBody]AccountViewModel accountView)
         {
             var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
@@ -183,6 +174,7 @@ namespace WebAPI.Controllers
                             if (accountView.DefaultPassword == 1)
                             {
                                 user.DefaultPassword = 0;
+                                //user.DefaultPassword = false;
                                 manager.Update(user);
                             }
                             return Ok(changePassword);

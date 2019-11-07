@@ -22,6 +22,9 @@ namespace WebAPI
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
+            //var manager1 = new IdentityDbContext();
+            //var manager2 = new DB_A4DEDC_CTReportEntities();
+            // manager2.User
             var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var manager = new UserManager<ApplicationUser>(userStore);
             var user = await manager.FindAsync(context.UserName, context.Password);            
