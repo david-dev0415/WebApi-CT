@@ -7,6 +7,7 @@ using System.Web.Http;
 using WebAPI.Models;
 using Newtonsoft.Json;
 using WebAPI.Models.ViewsModel;
+using System.Data.SqlClient;
 
 namespace WebAPI.Controllers
 {
@@ -15,13 +16,14 @@ namespace WebAPI.Controllers
     [AllowAnonymous]
     public class ReportsController : ApiController
     {
-        // private DB_A4DEDC_CTReportEntities db = new DB_A4DEDC_CTReportEntities();
+        //private DB_A4DEDC_CTReportEntities db = new DB_A4DEDC_CTReportEntities();
 
         [Route("Consolidate")]
-        public IHttpActionResult GetConsolidate()
+        public IHttpActionResult GetConsolidate(string id)
         {
             using (var manager = new DB_A4DEDC_CTReportEntities())
             {
+
                 var consolidate = manager.Consolidate.Select(c => new ConsolidateViewModel
                 {
                     IdConsolidate = c.IdConsolidate,
@@ -32,7 +34,8 @@ namespace WebAPI.Controllers
                     Day = c.Day,
                     Month = c.Month,
                     Year = c.Year
-                }).ToList();
+                }).Where(c => c.IdConsolidate == id).ToList();
+
 
                 if (consolidate == null)
                     return Content(HttpStatusCode.BadRequest, "Error al obtener los datos de la consulta de Consolidado");
@@ -47,22 +50,15 @@ namespace WebAPI.Controllers
         {
             using (var manager = new DB_A4DEDC_CTReportEntities())
             {
-                if (numberId.Equals(""))
+                var consolidate = manager.Database.SqlQuery<ConsolidateViewModel>("sp_consolidate @numberId", new SqlParameter("numberId", numberId));
+                if (consolidate != null)
                 {
-                    return BadRequest("El número de identificación es requerido"); // HTTP 400
+                    return Ok(consolidate.ToList());
                 }
-
-                //var consolidate = from 
-
-
-                //if (consolidate.Count == 0)
-                //    return NotFound();
-
-                //if (consolidate == null)
-                //    return BadRequest("Error al realizar la consulta");
-
-                //return Ok(consolidate);
-                return Ok("Estoy funcionando...");
+                else
+                {
+                    return Content(HttpStatusCode.NotFound, "No existe ninguna asociación para el número de identificación ingresado.");
+                }
             }
         }
     }

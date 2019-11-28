@@ -13,44 +13,44 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    public class ConsolidatesController : ApiController
+    public class PartnersController : ApiController
     {
         private DB_A4DEDC_CTReportEntities db = new DB_A4DEDC_CTReportEntities();
 
-        // GET: api/Consolidates
-        public IQueryable<Consolidate> GetConsolidate()
+        // GET: api/Partners
+        public IQueryable<Partner> GetPartner()
         {
-            return db.Consolidate;
+            return db.Partner;
         }
 
-        // GET: api/Consolidates/5
-        [ResponseType(typeof(Consolidate))]
-        public async Task<IHttpActionResult> GetConsolidate(string id)
+        // GET: api/Partners/5
+        [ResponseType(typeof(Partner))]
+        public async Task<IHttpActionResult> GetPartner(int id)
         {
-            Consolidate consolidate = await db.Consolidate.FindAsync(id);
-            if (consolidate == null)
+            Partner partner = await db.Partner.FindAsync(id);
+            if (partner == null)
             {
                 return NotFound();
             }
-            
-            return Ok(consolidate);
+
+            return Ok(partner);
         }
 
-        // PUT: api/Consolidates/5
+        // PUT: api/Partners/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutConsolidate(string id, Consolidate consolidate)
+        public async Task<IHttpActionResult> PutPartner(int id, Partner partner)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != consolidate.IdConsolidate)
+            if (id != partner.InPartner)
             {
                 return BadRequest();
             }
 
-            db.Entry(consolidate.IdConsolidate).State = EntityState.Modified;
+            db.Entry(partner).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ConsolidateExists(id))
+                if (!PartnerExists(id))
                 {
                     return NotFound();
                 }
@@ -71,16 +71,16 @@ namespace WebAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Consolidates
-        [ResponseType(typeof(Consolidate))]
-        public async Task<IHttpActionResult> PostConsolidate(Consolidate consolidate)
+        // POST: api/Partners
+        [ResponseType(typeof(Partner))]
+        public async Task<IHttpActionResult> PostPartner(Partner partner)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Consolidate.Add(consolidate);
+            db.Partner.Add(partner);
 
             try
             {
@@ -88,7 +88,7 @@ namespace WebAPI.Controllers
             }
             catch (DbUpdateException)
             {
-                if (ConsolidateExists(consolidate.IdConsolidate))
+                if (PartnerExists(partner.InPartner))
                 {
                     return Conflict();
                 }
@@ -98,23 +98,23 @@ namespace WebAPI.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = consolidate.IdConsolidate }, consolidate);
+            return CreatedAtRoute("DefaultApi", new { id = partner.InPartner }, partner);
         }
 
-        // DELETE: api/Consolidates/5
-        [ResponseType(typeof(Consolidate))]
-        public async Task<IHttpActionResult> DeleteConsolidate(string id)
+        // DELETE: api/Partners/5
+        [ResponseType(typeof(Partner))]
+        public async Task<IHttpActionResult> DeletePartner(int id)
         {
-            Consolidate consolidate = await db.Consolidate.FindAsync(id);
-            if (consolidate == null)
+            Partner partner = await db.Partner.FindAsync(id);
+            if (partner == null)
             {
                 return NotFound();
             }
 
-            db.Consolidate.Remove(consolidate);
+            db.Partner.Remove(partner);
             await db.SaveChangesAsync();
 
-            return Ok(consolidate);
+            return Ok(partner);
         }
 
         protected override void Dispose(bool disposing)
@@ -126,9 +126,9 @@ namespace WebAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ConsolidateExists(string id)
+        private bool PartnerExists(int id)
         {
-            return db.Consolidate.Count(e => e.IdConsolidate == id) > 0;
+            return db.Partner.Count(e => e.InPartner == id) > 0;
         }
     }
 }
