@@ -18,39 +18,13 @@ namespace WebAPI.Controllers
     {
         //private DB_A4DEDC_CTReportEntities db = new DB_A4DEDC_CTReportEntities();
 
-        [Route("Consolidate")]
-        public IHttpActionResult GetConsolidate(string id)
-        {
-            using (var manager = new DB_A4DEDC_CTReportEntities())
-            {
-
-                var consolidate = manager.Consolidate.Select(c => new ConsolidateViewModel
-                {
-                    IdConsolidate = c.IdConsolidate,
-                    CodVehicle = c.CodVehicle,
-                    NameRoute = c.NameRoute,
-                    LapsManual = c.LapsManual,
-                    Passenger = c.Passenger,
-                    Day = c.Day,
-                    Month = c.Month,
-                    Year = c.Year
-                }).Where(c => c.IdConsolidate == id).ToList();
-
-
-                if (consolidate == null)
-                    return Content(HttpStatusCode.BadRequest, "Error al obtener los datos de la consulta de Consolidado");
-                else
-                    return Ok(consolidate);
-            }
-        }
-
         [HttpGet]
         [Route("ConsolidatedNumberId/")]
         public IHttpActionResult GetConsolidatedNumberId([FromUri] string numberId)
         {
             using (var manager = new DB_A4DEDC_CTReportEntities())
             {
-                var consolidate = manager.Database.SqlQuery<ConsolidateViewModel>("sp_consolidate @numberId", new SqlParameter("numberId", numberId));
+                var consolidate = manager.Database.SqlQuery<ConsolidateViewModel>("SPConsolidated @numberId", new SqlParameter("numberId", numberId));
                 if (consolidate != null)
                 {
                     return Ok(consolidate.ToList());
@@ -61,5 +35,30 @@ namespace WebAPI.Controllers
                 }
             }
         }
+
+        [HttpGet]
+        [Route("GetConsolidatedPerDateVehicle/")]
+        public IHttpActionResult GetConsolidatedPerDateVehicle([FromUri] string numberId, string day, string month, string year)
+        {
+            using (var manager = new DB_A4DEDC_CTReportEntities())
+            {
+                // Modificar 
+                var dayParameter = new SqlParameter("@day", day);
+                var monthParameter = new SqlParameter("@month", month);
+                var yearParameter = new SqlParameter("@year", year);
+                var numberIdParameter = new SqlParameter("@numberId", numberId);
+
+                var consolidate = manager.Database.SqlQuery<ConsolidateViewModel>("SPConsolidatedPerDateVehicle @day, @month, @year, @numberId", dayParameter, monthParameter, yearParameter, numberIdParameter);
+                if (consolidate != null)
+                {
+                    return Ok(consolidate.ToList());
+                }
+                else
+                {
+                    return Content(HttpStatusCode.NotFound, "No existe ningún registro para la fecha ingresada.");
+                }
+            }
+        }
+
     }
 }
