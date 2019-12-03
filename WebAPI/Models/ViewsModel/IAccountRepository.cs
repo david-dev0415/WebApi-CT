@@ -13,6 +13,5 @@ namespace WebAPI.Models
         Task Delete(string id);
         Task<AccountViewModel> GetAccount(string id);
         Task<IEnumerable<AccountViewModel>> GetAccounts();
-
     }
 }
