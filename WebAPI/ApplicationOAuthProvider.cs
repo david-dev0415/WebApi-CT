@@ -29,7 +29,7 @@ namespace WebAPI
             var manager = new UserManager<ApplicationUser>(userStore);
             var user = await manager.FindAsync(context.UserName, context.Password);            
             if (user != null) {
-                var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
                 identity.AddClaim(new Claim("Username", user.UserName));
                 identity.AddClaim(new Claim("Email", user.Email));
                 identity.AddClaim(new Claim("FirstName", user.FirstName));
