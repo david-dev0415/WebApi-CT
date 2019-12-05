@@ -76,7 +76,7 @@ namespace WebAPI.Controllers
                 var dateTimeStartParameter = new SqlParameter("@dateStart", dateTimeStart);
                 var dateTimeFinalParameter = new SqlParameter("@dateFinal", dateTimeFinal);
                 // manager.Database.ExecuteSqlCommand()
-                var detailedReport = manager.Database.SqlQuery<HistoryCollectionViewTestModel>("SPDetailedByVehicle @numberId, @dateStart, @dateFinal", numberIdParameter, dateTimeStartParameter, dateTimeFinalParameter);
+                var detailedReport = manager.Database.SqlQuery<HistoryCollectionViewModel>("SPDetailedByVehicle @numberId, @dateStart, @dateFinal", numberIdParameter, dateTimeStartParameter, dateTimeFinalParameter);
                 if (detailedReport != null)
                 {
                     return Ok(detailedReport.ToList());
