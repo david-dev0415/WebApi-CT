@@ -17,8 +17,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <Use64BitIISExpress />
     <UseGlobalApplicationHostFile />
@@ -266,6 +266,7 @@
     <Compile Include="Models\ViewsModel\AccountViewModel.cs" />
     <Compile Include="Models\ViewsModel\ConsolidateViewModel.cs" />
     <Compile Include="Models\ViewsModel\HistoryCollectionViewModel.cs" />
+    <Compile Include="Models\ViewsModel\HistoryCollectionViewModel.Test.cs" />
     <Compile Include="Models\ViewsModel\IAccountRepository.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ViewsModel\PartnerViewModel.cs" />
