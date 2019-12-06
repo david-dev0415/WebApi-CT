@@ -24,6 +24,7 @@ namespace WebAPI.Models
         public string CodSector { get; set; }
         public string NameCompany { get; set; }
         public Nullable<double> InSector { get; set; }
+        public string IdConsolidate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HistoryCollection> HistoryCollection { get; set; }

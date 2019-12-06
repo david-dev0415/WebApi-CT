@@ -14,12 +14,18 @@ namespace WebAPI.Models
     
     public partial class Partner
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Partner()
+        {
+            this.Vehicle = new HashSet<Vehicle>();
+        }
+    
+        public int InPartner { get; set; }
         public Nullable<long> NumberId { get; set; }
         public string NameOwner { get; set; }
         public string IdUser { get; set; }
-        public int InPartner { get; set; }
     
-        public virtual PartnerVehicleDetails PartnerVehicleDetails { get; set; }
-        public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Vehicle> Vehicle { get; set; }
     }
 }

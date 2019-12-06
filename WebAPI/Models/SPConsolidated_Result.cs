@@ -10,13 +10,14 @@
 namespace WebAPI.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class HistoryRealTime
+    public partial class SPConsolidated_Result
     {
-        public string IdHistoryRealTime { get; set; }
-        public Nullable<System.DateTime> DateAndTime { get; set; }
-        public Nullable<long> Speed { get; set; }
-        public Nullable<double> InHistoryRealTime { get; set; }
+        public string CodVehicle { get; set; }
+        public string LapsManual { get; set; }
+        public string Passenger { get; set; }
+        public string Day { get; set; }
+        public string Month { get; set; }
+        public string Year { get; set; }
     }
 }

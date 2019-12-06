@@ -12,11 +12,13 @@ namespace WebAPI.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
-    public partial class DB_A4DEDC_CTReportEntities : DbContext
+    public partial class CtReportsEntities : DbContext
     {
-        public DB_A4DEDC_CTReportEntities()
-            : base("name=DB_A4DEDC_CTReportEntities")
+        public CtReportsEntities()
+            : base("name=CtReportsEntities")
         {
         }
     
@@ -25,15 +27,60 @@ namespace WebAPI.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Consolidate> Consolidate { get; set; }
+        public virtual DbSet<HistoryCollection> HistoryCollection { get; set; }
         public virtual DbSet<HistoryRealTime> HistoryRealTime { get; set; }
         public virtual DbSet<Partner> Partner { get; set; }
         public virtual DbSet<RegistryRealTime> RegistryRealTime { get; set; }
         public virtual DbSet<Route> Route { get; set; }
         public virtual DbSet<Sector> Sector { get; set; }
         public virtual DbSet<Vehicle> Vehicle { get; set; }
-        public virtual DbSet<HistoryCollection> HistoryCollection { get; set; }
-        public virtual DbSet<PartnerVehicleDetails> PartnerVehicleDetails { get; set; }
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Consolidate> Consolidate { get; set; }
+    
+        public virtual ObjectResult<SPConsolidated_Result> SPConsolidated(string id)
+        {
+            var idParameter = id != null ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPConsolidated_Result>("SPConsolidated", idParameter);
+        }
+    
+        public virtual ObjectResult<SPConsolidatedPerDateVehicle_Result> SPConsolidatedPerDateVehicle(string day, string month, string year, string id)
+        {
+            var dayParameter = day != null ?
+                new ObjectParameter("day", day) :
+                new ObjectParameter("day", typeof(string));
+    
+            var monthParameter = month != null ?
+                new ObjectParameter("month", month) :
+                new ObjectParameter("month", typeof(string));
+    
+            var yearParameter = year != null ?
+                new ObjectParameter("year", year) :
+                new ObjectParameter("year", typeof(string));
+    
+            var idParameter = id != null ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPConsolidatedPerDateVehicle_Result>("SPConsolidatedPerDateVehicle", dayParameter, monthParameter, yearParameter, idParameter);
+        }
+    
+        public virtual ObjectResult<SPDetailedByVehicle_Result> SPDetailedByVehicle(string numberId, string dateStart, string dateFinal)
+        {
+            var numberIdParameter = numberId != null ?
+                new ObjectParameter("numberId", numberId) :
+                new ObjectParameter("numberId", typeof(string));
+    
+            var dateStartParameter = dateStart != null ?
+                new ObjectParameter("dateStart", dateStart) :
+                new ObjectParameter("dateStart", typeof(string));
+    
+            var dateFinalParameter = dateFinal != null ?
+                new ObjectParameter("dateFinal", dateFinal) :
+                new ObjectParameter("dateFinal", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPDetailedByVehicle_Result>("SPDetailedByVehicle", numberIdParameter, dateStartParameter, dateFinalParameter);
+        }
     }
 }

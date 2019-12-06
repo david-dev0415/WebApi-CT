@@ -17,19 +17,19 @@ namespace WebAPI.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Vehicle()
         {
-            this.PartnerVehicleDetails = new HashSet<PartnerVehicleDetails>();
             this.HistoryCollection = new HashSet<HistoryCollection>();
+            this.Partner = new HashSet<Partner>();
         }
     
-        public Nullable<long> CodVehicle { get; set; }
+        public Nullable<int> CodVehicle { get; set; }
         public string IdVehicle { get; set; }
         public string Description { get; set; }
         public string LicensePlate { get; set; }
-        public Nullable<int> InVehicle { get; set; }
+        public Nullable<double> InVehicle { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PartnerVehicleDetails> PartnerVehicleDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HistoryCollection> HistoryCollection { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Partner> Partner { get; set; }
     }
 }

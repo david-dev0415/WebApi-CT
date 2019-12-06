@@ -14,22 +14,15 @@ namespace WebAPI.Models
     
     public partial class Consolidate
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Consolidate()
-        {
-            this.HistoryCollection = new HashSet<HistoryCollection>();
-        }
-    
-        public string IdConsolidate { get; set; }
         public string CodVehicle { get; set; }
-        public string NameRoute { get; set; }
+        public string CodRoute { get; set; }
+        public string Year { get; set; }
+        public string Month { get; set; }
+        public string Day { get; set; }
         public string LapsManual { get; set; }
         public string Passenger { get; set; }
-        public string Day { get; set; }
-        public string Month { get; set; }
-        public string Year { get; set; }
+        public string IdConsolidate { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HistoryCollection> HistoryCollection { get; set; }
+        public virtual HistoryCollection HistoryCollection { get; set; }
     }
 }

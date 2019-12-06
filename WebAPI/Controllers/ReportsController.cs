@@ -23,9 +23,10 @@ namespace WebAPI.Controllers
         [Route("ConsolidatedNumberId/")]
         public IHttpActionResult GetConsolidatedNumberId([FromUri] string numberId)
         {
-            using (var manager = new DB_A4DEDC_CTReportEntities())
+            using (var manager = new CtReportsEntities())
             {
-                var consolidate = manager.Database.SqlQuery<ConsolidateViewModel>("SPConsolidated @numberId", new SqlParameter("numberId", numberId));
+                var consolidate = manager.SPConsolidated(numberId);
+                // var consolidate = manager.Database.SqlQuery<ConsolidateViewModel>("SPConsolidated @numberId", new SqlParameter("numberId", numberId));
                 if (consolidate != null)
                 {
                     return Ok(consolidate.ToList());
@@ -41,14 +42,14 @@ namespace WebAPI.Controllers
         [Route("GetConsolidatedPerDateVehicle/")]
         public IHttpActionResult GetConsolidatedPerDateVehicle([FromBody] ConsolidateViewModel dateParameters, [FromUri] string numberId)
         {
-            using (var manager = new DB_A4DEDC_CTReportEntities())
-            {                
-                var dayParameter = new SqlParameter("@day", dateParameters.Day);
-                var monthParameter = new SqlParameter("@month", dateParameters.Month);
-                var yearParameter = new SqlParameter("@year", dateParameters.Year);
-                var numberIdParameter = new SqlParameter("@numberId", numberId);
-
-                var consolidate = manager.Database.SqlQuery<ConsolidateViewModel>("SPConsolidatedPerDateVehicle @day, @month, @year, @numberId", dayParameter, monthParameter, yearParameter, numberIdParameter);
+            using (var manager = new CtReportsEntities())
+            {
+                // var dayParameter = new SqlParameter("@day", dateParameters.Day);
+                // var monthParameter = new SqlParameter("@month", dateParameters.Month);
+                // var yearParameter = new SqlParameter("@year", dateParameters.Year);
+                // var numberIdParameter = new SqlParameter("@numberId", numberId);
+                var consolidate = manager.SPConsolidatedPerDateVehicle(dateParameters.Day, dateParameters.Month, dateParameters.Year, numberId);
+                // var consolidate = manager.Database.SqlQuery<ConsolidateViewModel>("SPConsolidatedPerDateVehicle @day, @month, @year, @numberId", dayParameter, monthParameter, yearParameter, numberIdParameter);
                 if (consolidate != null)
                 {
                     return Ok(consolidate.ToList());
@@ -64,7 +65,7 @@ namespace WebAPI.Controllers
         [Route("GetDetailedReport/")]
         public IHttpActionResult GetDetailedReport([FromUri] string numberId, string dateTimeStart, string dateTimeFinal)
         {
-            using (var manager = new DB_A4DEDC_CTReportEntities())
+            using (var manager = new CtReportsEntities())
             {
                 if (dateTimeStart.Contains(".") || dateTimeFinal.Contains("."))
                 {
@@ -72,11 +73,12 @@ namespace WebAPI.Controllers
                     dateTimeFinal = dateTimeFinal.Replace(".", "").Replace(" ", "");
                 }
 
-                var numberIdParameter = new SqlParameter("@numberId", numberId);                
-                var dateTimeStartParameter = new SqlParameter("@dateStart", dateTimeStart);
-                var dateTimeFinalParameter = new SqlParameter("@dateFinal", dateTimeFinal);
+                // var numberIdParameter = new SqlParameter("@numberId", numberId);                
+                // var dateTimeStartParameter = new SqlParameter("@dateStart", dateTimeStart);
+                // var dateTimeFinalParameter = new SqlParameter("@dateFinal", dateTimeFinal);
                 // manager.Database.ExecuteSqlCommand()
-                var detailedReport = manager.Database.SqlQuery<HistoryCollectionViewModel>("SPDetailedByVehicle @numberId, @dateStart, @dateFinal", numberIdParameter, dateTimeStartParameter, dateTimeFinalParameter);
+                var detailedReport = manager.SPDetailedByVehicle(numberId, dateTimeStart, dateTimeFinal);
+                // var detailedReport = manager.Database.SqlQuery<HistoryCollectionViewModel>("SPDetailedByVehicle @numberId, @dateStart, @dateFinal", numberIdParameter, dateTimeStartParameter, dateTimeFinalParameter);
                 if (detailedReport != null)
                 {
                     return Ok(detailedReport.ToList());

@@ -4,24 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="38dfd9f016c842b7969f83c9f1a74bbe" Name="Diagram1">
-        <EntityTypeShape EntityType="DB_A4DEDC_CTReportModel.Consolidate" Width="1.5" PointX="3.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4DEDC_CTReportModel.HistoryRealTime" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4DEDC_CTReportModel.Partner" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4DEDC_CTReportModel.RegistryRealTime" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4DEDC_CTReportModel.Route" Width="1.5" PointX="3.75" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4DEDC_CTReportModel.Sector" Width="1.5" PointX="3.75" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4DEDC_CTReportModel.Vehicle" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4DEDC_CTReportModel.HistoryCollection" Width="1.5" PointX="6" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4DEDC_CTReportModel.PartnerVehicleDetails" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
-        <AssociationConnector Association="DB_A4DEDC_CTReportModel.FK_consolidate" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_A4DEDC_CTReportModel.FK__PartnerVe__InPar__0E6E26BF" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_A4DEDC_CTReportModel.FK_Route" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_A4DEDC_CTReportModel.FK_Sector" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_A4DEDC_CTReportModel.FK_DetailVehicle" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_A4DEDC_CTReportModel.FK_Vehicle" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="DB_A4DEDC_CTReportModel.User" Width="1.5" PointX="0.75" PointY="13.125" />
-        <AssociationConnector Association="DB_A4DEDC_CTReportModel.FK__Partner__IdUser__0D44F85C" />
+      <Diagram DiagramId="cfdb789324df4a1ea507883fa6334e46" Name="Diagram1">
+        <EntityTypeShape EntityType="CtReportsModel.HistoryCollection" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CtReportsModel.HistoryRealTime" Width="1.5" PointX="7.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CtReportsModel.Partner" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CtReportsModel.RegistryRealTime" Width="1.5" PointX="7.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CtReportsModel.Route" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CtReportsModel.Sector" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CtReportsModel.Vehicle" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="CtReportsModel.Consolidate" Width="1.5" PointX="7.5" PointY="3.875" IsExpanded="true" />
+        <AssociationConnector Association="CtReportsModel.FK_consolidate" ManuallyRouted="false" />
+        <AssociationConnector Association="CtReportsModel.FK_Route" ManuallyRouted="false" />
+        <AssociationConnector Association="CtReportsModel.FK_Sector" ManuallyRouted="false" />
+        <AssociationConnector Association="CtReportsModel.FK_Vehicle" ManuallyRouted="false" />
+        <AssociationConnector Association="CtReportsModel.PartnerVehicleDetails" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

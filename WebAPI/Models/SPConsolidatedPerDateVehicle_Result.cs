@@ -10,14 +10,14 @@
 namespace WebAPI.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class PartnerVehicleDetails
+    public partial class SPConsolidatedPerDateVehicle_Result
     {
-        public int InPartner { get; set; }
-        public string IdVehicle { get; set; }
-    
-        public virtual Partner Partner { get; set; }
-        public virtual Vehicle Vehicle { get; set; }
+        public string CodVehicle { get; set; }
+        public string LapsManual { get; set; }
+        public string Passenger { get; set; }
+        public string Day { get; set; }
+        public string Month { get; set; }
+        public string Year { get; set; }
     }
 }
