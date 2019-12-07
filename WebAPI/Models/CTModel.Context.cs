@@ -43,28 +43,7 @@ namespace WebAPI.Models
                 new ObjectParameter("id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPConsolidated_Result>("SPConsolidated", idParameter);
-        }
-    
-        public virtual ObjectResult<SPConsolidatedPerDateVehicle_Result> SPConsolidatedPerDateVehicle(string day, string month, string year, string id)
-        {
-            var dayParameter = day != null ?
-                new ObjectParameter("day", day) :
-                new ObjectParameter("day", typeof(string));
-    
-            var monthParameter = month != null ?
-                new ObjectParameter("month", month) :
-                new ObjectParameter("month", typeof(string));
-    
-            var yearParameter = year != null ?
-                new ObjectParameter("year", year) :
-                new ObjectParameter("year", typeof(string));
-    
-            var idParameter = id != null ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPConsolidatedPerDateVehicle_Result>("SPConsolidatedPerDateVehicle", dayParameter, monthParameter, yearParameter, idParameter);
-        }
+        }      
     
         public virtual ObjectResult<SPDetailedByVehicle_Result> SPDetailedByVehicle(string numberId, string dateStart, string dateFinal)
         {
@@ -81,6 +60,39 @@ namespace WebAPI.Models
                 new ObjectParameter("dateFinal", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPDetailedByVehicle_Result>("SPDetailedByVehicle", numberIdParameter, dateStartParameter, dateFinalParameter);
+        }                     
+    
+        public virtual ObjectResult<SPconsolidatedDateOfVehicle_Result> SPconsolidatedDateOfVehicle(string startDay, string startMonth, string startYear, string finalDay, string finalMonth, string finalYear, string id)
+        {
+            var startDayParameter = startDay != null ?
+                new ObjectParameter("startDay", startDay) :
+                new ObjectParameter("startDay", typeof(string));
+    
+            var startMonthParameter = startMonth != null ?
+                new ObjectParameter("startMonth", startMonth) :
+                new ObjectParameter("startMonth", typeof(string));
+    
+            var startYearParameter = startYear != null ?
+                new ObjectParameter("startYear", startYear) :
+                new ObjectParameter("startYear", typeof(string));
+    
+            var finalDayParameter = finalDay != null ?
+                new ObjectParameter("finalDay", finalDay) :
+                new ObjectParameter("finalDay", typeof(string));
+    
+            var finalMonthParameter = finalMonth != null ?
+                new ObjectParameter("finalMonth", finalMonth) :
+                new ObjectParameter("finalMonth", typeof(string));
+    
+            var finalYearParameter = finalYear != null ?
+                new ObjectParameter("finalYear", finalYear) :
+                new ObjectParameter("finalYear", typeof(string));
+    
+            var idParameter = id != null ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SPconsolidatedDateOfVehicle_Result>("SPconsolidatedDateOfVehicle", startDayParameter, startMonthParameter, startYearParameter, finalDayParameter, finalMonthParameter, finalYearParameter, idParameter);
         }
     }
 }

@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using WebAPI.Models.ViewsModel;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -40,15 +41,15 @@ namespace WebAPI.Controllers
 
         [HttpPost]
         [Route("GetConsolidatedPerDateVehicle/")]
-        public IHttpActionResult GetConsolidatedPerDateVehicle([FromBody] ConsolidateViewModel dateParameters, [FromUri] string numberId)
+        public IHttpActionResult GetConsolidatedPerDateVehicle(ParamsBodyViewModel paramsBody)
         {
             using (var manager = new CtReportsEntities())
             {
                 // var dayParameter = new SqlParameter("@day", dateParameters.Day);
-                // var monthParameter = new SqlParameter("@month", dateParameters.Month);
+                // var monthParameter = new SqlParameter("@month", dateParameters.Month);   
                 // var yearParameter = new SqlParameter("@year", dateParameters.Year);
                 // var numberIdParameter = new SqlParameter("@numberId", numberId);
-                var consolidate = manager.SPConsolidatedPerDateVehicle(dateParameters.Day, dateParameters.Month, dateParameters.Year, numberId);
+                var consolidate = manager.SPconsolidatedDateOfVehicle(paramsBody.StartDay, paramsBody.StartMonth, paramsBody.StartYear, paramsBody.FinalDay, paramsBody.FinalMonth, paramsBody.FinalYear, paramsBody.NumberId);
                 // var consolidate = manager.Database.SqlQuery<ConsolidateViewModel>("SPConsolidatedPerDateVehicle @day, @month, @year, @numberId", dayParameter, monthParameter, yearParameter, numberIdParameter);
                 if (consolidate != null)
                 {

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CtReportsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CtReportsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'CtReports.dbo.Consolidate' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Consolidate">
@@ -216,10 +216,13 @@ advertencia 6002: La tabla o vista 'CtReports.dbo.PartnerVehicleDetails' no tien
         <Function Name="SPConsolidated" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="nvarchar" Mode="In" />
         </Function>
-        <Function Name="SPConsolidatedPerDateVehicle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="day" Type="nvarchar" Mode="In" />
-          <Parameter Name="month" Type="nvarchar" Mode="In" />
-          <Parameter Name="year" Type="nvarchar" Mode="In" />
+        <Function Name="SPconsolidatedDateOfVehicle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="startDay" Type="nvarchar" Mode="In" />
+          <Parameter Name="startMonth" Type="nvarchar" Mode="In" />
+          <Parameter Name="startYear" Type="nvarchar" Mode="In" />
+          <Parameter Name="finalDay" Type="nvarchar" Mode="In" />
+          <Parameter Name="finalMonth" Type="nvarchar" Mode="In" />
+          <Parameter Name="finalYear" Type="nvarchar" Mode="In" />
           <Parameter Name="id" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="SPDetailedByVehicle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -278,8 +281,7 @@ advertencia 6002: La tabla o vista 'CtReports.dbo.PartnerVehicleDetails' no tien
             <End Role="HistoryCollection" EntitySet="HistoryCollection" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CtReportsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -495,18 +497,48 @@ advertencia 6002: La tabla o vista 'CtReports.dbo.PartnerVehicleDetails' no tien
             <End Role="Vehicle" EntitySet="Vehicle" />
           </AssociationSet>
           <FunctionImport Name="SPConsolidated" ReturnType="Collection(CtReportsModel.SPConsolidated_Result)">
-            <Parameter Name="id" Mode="In" Type="String" />
+          <Parameter Name="id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SPConsolidatedPerDateVehicle" ReturnType="Collection(CtReportsModel.SPConsolidatedPerDateVehicle_Result)">
-            <Parameter Name="day" Mode="In" Type="String" />
-            <Parameter Name="month" Mode="In" Type="String" />
-            <Parameter Name="year" Mode="In" Type="String" />
+            <Parameter Name="startDay" Mode="In" Type="String" />
+            <Parameter Name="startMonth" Mode="In" Type="String" />
+            <Parameter Name="startYear" Mode="In" Type="String" />
+            <Parameter Name="finalDay" Mode="In" Type="String" />
+            <Parameter Name="finalMonth" Mode="In" Type="String" />
+            <Parameter Name="finalYear" Mode="In" Type="String" />
             <Parameter Name="id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SPDetailedByVehicle" ReturnType="Collection(CtReportsModel.SPDetailedByVehicle_Result)">
             <Parameter Name="numberId" Mode="In" Type="String" />
             <Parameter Name="dateStart" Mode="In" Type="String" />
             <Parameter Name="dateFinal" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ImportSPCPDateV" ReturnType="Collection(CtReportsModel.SPConsolidatedPerDateVehicle_Result)">
+            <Parameter Name="startDay" Mode="In" Type="String" />
+            <Parameter Name="startMonth" Mode="In" Type="String" />
+            <Parameter Name="startYear" Mode="In" Type="String" />
+            <Parameter Name="finalDay" Mode="In" Type="String" />
+            <Parameter Name="finalMonth" Mode="In" Type="String" />
+            <Parameter Name="finalYear" Mode="In" Type="String" />
+            <Parameter Name="id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SPConsolidatedDateVehicle" ReturnType="Collection(CtReportsModel.SPConsolidatedDateVehicle_Result)">
+            <Parameter Name="startDay" Mode="In" Type="String" />
+            <Parameter Name="startMonth" Mode="In" Type="String" />
+            <Parameter Name="startYear" Mode="In" Type="String" />
+            <Parameter Name="finalDay" Mode="In" Type="String" />
+            <Parameter Name="finalMonth" Mode="In" Type="String" />
+            <Parameter Name="finalYear" Mode="In" Type="String" />
+            <Parameter Name="id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SPconsolidatedDateOfVehicle" ReturnType="Collection(CtReportsModel.SPconsolidatedDateOfVehicle_Result)">
+            <Parameter Name="startDay" Mode="In" Type="String" />
+            <Parameter Name="startMonth" Mode="In" Type="String" />
+            <Parameter Name="startYear" Mode="In" Type="String" />
+            <Parameter Name="finalDay" Mode="In" Type="String" />
+            <Parameter Name="finalMonth" Mode="In" Type="String" />
+            <Parameter Name="finalYear" Mode="In" Type="String" />
+            <Parameter Name="id" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SPConsolidated_Result">
@@ -537,6 +569,25 @@ advertencia 6002: La tabla o vista 'CtReports.dbo.PartnerVehicleDetails' no tien
           <Property Type="Int32" Name="Amount" Nullable="true" />
           <Property Type="Int32" Name="Blocks" Nullable="true" />
           <Property Type="Double" Name="Kilometers" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SPConsolidatedDateVehicle_Result">
+          <Property Type="String" Name="CodVehicle" Nullable="true" />
+          <Property Type="String" Name="CodRoute" Nullable="true" />
+          <Property Type="String" Name="LapsManual" Nullable="true" />
+          <Property Type="String" Name="Passenger" Nullable="true" />
+          <Property Type="String" Name="Day" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="Month" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="Year" Nullable="false" MaxLength="128" />
+        </ComplexType>
+        <ComplexType Name="SPconsolidatedDateOfVehicle_Result">
+          <Property Type="String" Name="CodVehicle" Nullable="true" />
+          <Property Type="String" Name="CodRoute" Nullable="true" />
+          <Property Type="String" Name="LapsManual" Nullable="true" />
+          <Property Type="String" Name="Passenger" Nullable="true" />
+          <Property Type="String" Name="Day" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="Month" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="Year" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="IdConsolidate" Nullable="true" MaxLength="128" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -681,18 +732,6 @@ advertencia 6002: La tabla o vista 'CtReports.dbo.PartnerVehicleDetails' no tien
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SPConsolidatedPerDateVehicle" FunctionName="CtReportsModel.Store.SPConsolidatedPerDateVehicle">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="CtReportsModel.SPConsolidatedPerDateVehicle_Result">
-                <ScalarProperty Name="CodVehicle" ColumnName="CodVehicle" />
-                <ScalarProperty Name="LapsManual" ColumnName="LapsManual" />
-                <ScalarProperty Name="Passenger" ColumnName="Passenger" />
-                <ScalarProperty Name="Day" ColumnName="Day" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SPDetailedByVehicle" FunctionName="CtReportsModel.Store.SPDetailedByVehicle">
             <ResultMapping>
               <ComplexTypeMapping TypeName="CtReportsModel.SPDetailedByVehicle_Result">
@@ -707,6 +746,20 @@ advertencia 6002: La tabla o vista 'CtReports.dbo.PartnerVehicleDetails' no tien
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Blocks" ColumnName="Blocks" />
                 <ScalarProperty Name="Kilometers" ColumnName="Kilometers" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SPconsolidatedDateOfVehicle" FunctionName="CtReportsModel.Store.SPconsolidatedDateOfVehicle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CtReportsModel.SPconsolidatedDateOfVehicle_Result">
+                <ScalarProperty Name="CodVehicle" ColumnName="CodVehicle" />
+                <ScalarProperty Name="CodRoute" ColumnName="CodRoute" />
+                <ScalarProperty Name="LapsManual" ColumnName="LapsManual" />
+                <ScalarProperty Name="Passenger" ColumnName="Passenger" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="IdConsolidate" ColumnName="IdConsolidate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
